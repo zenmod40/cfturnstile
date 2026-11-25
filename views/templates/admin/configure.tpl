@@ -51,7 +51,7 @@
               };
             </script>
             <script src="{$cft.api|escape:'html':'UTF-8'}" async defer></script>
-            <p class="help-block">Attendez que la case soit validée, puis enregistrez : Cloudflare confirme alors les deux clés et la protection s'active.
+            <p class="help-block">Attendez que la case soit validée (widget en mode Invisible chez Cloudflare : rien ne s'affiche, attendez que le statut des clés indique « essai réussi »), puis enregistrez : Cloudflare confirme alors les deux clés et la protection s'active.
               Tant que ce n'est pas fait, rien n'est contrôlé, et une clé fausse ne peut pas bloquer la connexion au back-office.</p>
           </div>
         </div>
@@ -70,6 +70,14 @@
         <div class="col-lg-3"><select name="size">
           {foreach $cft.sizes as $v => $l}<option value="{$v|escape:'html':'UTF-8'}"{if $cft.size == $v} selected{/if}>{$l|escape:'html':'UTF-8'}</option>{/foreach}
         </select></div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-lg-3">Afficher la case</label>
+        <div class="col-lg-9"><select name="appearance" style="max-width:420px">
+          {foreach $cft.appearances as $v => $l}<option value="{$v|escape:'html':'UTF-8'}"{if $cft.appearance == $v} selected{/if}>{$l|escape:'html':'UTF-8'}</option>{/foreach}
+        </select>
+        <p class="help-block">« Seulement si Cloudflare demande une action » : la vérification se fait sans rien afficher, la case n'apparaît que pour un visiteur
+          que Cloudflare veut faire cliquer. La protection reste celle du mode Managed. À choisir aussi si le widget est en mode Invisible chez Cloudflare.</p></div>
       </div>
       <div class="form-group">
         <label class="control-label col-lg-3">Clients connectés</label>

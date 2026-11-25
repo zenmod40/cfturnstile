@@ -41,6 +41,11 @@ CSS, modifiable formulaire par formulaire si votre thème diffère. Un seul widg
 thème a deux boutons d'envoi. Les formulaires ajoutés après le chargement de la page reçoivent aussi le leur,
 et le widget de la newsletter se renouvelle après chaque envoi en ajax.
 
+Affichage de la case, au choix : toujours, ou seulement si Cloudflare demande une action au visiteur. Dans ce
+second cas, la vérification se fait sans rien afficher pour la plupart des visiteurs, avec la protection du
+mode Managed. Un widget réglé en mode « Invisible » chez Cloudflare est pris en charge aussi : rien n'est
+affiché et aucun espace n'est réservé dans le formulaire.
+
 L'API de Cloudflare n'est chargée que sur les pages qui ont un formulaire protégé.
 
 ## Sécurité de fonctionnement
@@ -76,7 +81,12 @@ Limites connues :
    avec Spin » : l'intégration est le travail du module). Noms d'hôte : le domaine de la boutique, et sa
    version www si elle est utilisée. Mode « Managed ». Pré-autorisation : laisser « Non ». Copier la clé
    de site et la clé secrète dans la configuration du module.
-4. Attendre que la case d'essai soit validée, puis enregistrer : la protection s'active.
+4. Attendre que la case d'essai soit validée, puis enregistrer : la protection s'active. Avec un widget en
+   mode « Invisible », rien ne s'affiche : attendre que le statut des clés indique « essai réussi ».
+
+Pour ne rien afficher aux visiteurs, préférez le mode « Managed » avec l'affichage « Seulement si Cloudflare
+demande une action » (onglet Réglages) au mode « Invisible » : en mode Invisible, Cloudflare ne demande jamais
+d'action, même à un visiteur douteux.
 
 Si le module Google reCAPTCHA (nocaptcharecaptcha) est installé, la page de configuration vous le signale :
 désinstallez-le une fois Turnstile actif, pour ne pas imposer deux vérifications.

@@ -83,6 +83,7 @@ class CfTurnstile extends Module
     ];
     const THEMES = ['auto' => 'Automatique', 'light' => 'Clair', 'dark' => 'Sombre'];
     const SIZES = ['normal' => 'Normale (300 px)', 'flexible' => 'Largeur du formulaire', 'compact' => 'Compacte'];
+    const APPEARANCES = ['always' => 'Toujours', 'interaction-only' => 'Seulement si Cloudflare demande une action'];
     const API = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
     const LOG_DAYS = 90;
 
@@ -117,7 +118,7 @@ class CfTurnstile extends Module
         $defaults = [
             'CFTURNSTILE_SITEKEY' => '', 'CFTURNSTILE_SECRET' => '', 'CFTURNSTILE_VERIFIED' => '',
             'CFTURNSTILE_FORMS' => json_encode(array_keys(self::forms())), 'CFTURNSTILE_SELECTORS' => '{}',
-            'CFTURNSTILE_THEME' => 'auto', 'CFTURNSTILE_SIZE' => 'normal', 'CFTURNSTILE_SKIP_LOGGED' => 1,
+            'CFTURNSTILE_THEME' => 'auto', 'CFTURNSTILE_SIZE' => 'normal', 'CFTURNSTILE_APPEARANCE' => 'always', 'CFTURNSTILE_SKIP_LOGGED' => 1,
             'ZM40_NET_ENABLED' => 1, // réglage commun aux modules ZM40 : jamais supprimé à la désinstallation
         ];
         foreach ($defaults as $key => $value) {
@@ -142,7 +143,7 @@ class CfTurnstile extends Module
 
     public function uninstall()
     {
-        foreach (['SITEKEY', 'SECRET', 'VERIFIED', 'FORMS', 'SELECTORS', 'THEME', 'SIZE', 'SKIP_LOGGED'] as $key) {
+        foreach (['SITEKEY', 'SECRET', 'VERIFIED', 'FORMS', 'SELECTORS', 'THEME', 'SIZE', 'APPEARANCE', 'SKIP_LOGGED'] as $key) {
             Configuration::deleteByName('CFTURNSTILE_'.$key);
         }
         Db::getInstance()->execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'cfturnstile_log`');
@@ -223,7 +224,7 @@ class CfTurnstile extends Module
 
     public function message()
     {
-        return $this->l('La vérification anti-robot n\'a pas abouti. Patientez quelques secondes que la case soit validée, puis renvoyez le formulaire.');
+        return $this->l('La vérification anti-robot n\'a pas abouti. Patientez quelques secondes, puis renvoyez le formulaire.');
     }
 
     /** @return string[] champs déclencheurs présents dans la requête */
@@ -402,6 +403,13 @@ class CfTurnstile extends Module
 
     /* ---------- Widget ---------- */
 
+    /** Affichage du widget : toujours, ou seulement quand Cloudflare demande une action au visiteur. */
+    private static function appearance()
+    {
+        $value = (string) Configuration::get('CFTURNSTILE_APPEARANCE');
+        return isset(self::APPEARANCES[$value]) ? $value : 'always';
+    }
+
     private function widgetConfig(array $forms)
     {
         $selectors = [];
@@ -413,7 +421,8 @@ class CfTurnstile extends Module
         }
         return [
             'sitekey' => (string) Configuration::get('CFTURNSTILE_SITEKEY'), 'theme' => (string) Configuration::get('CFTURNSTILE_THEME'),
-            'size' => (string) Configuration::get('CFTURNSTILE_SIZE'), 'language' => (string) $this->context->language->iso_code,
+            'size' => (string) Configuration::get('CFTURNSTILE_SIZE'), 'appearance' => self::appearance(),
+            'language' => (string) $this->context->language->iso_code,
             'api' => self::API.'?render=explicit&onload=cfTurnstileOnload', 'selectors' => $selectors, 'triggers' => $triggers,
         ];
     }
@@ -509,6 +518,7 @@ class CfTurnstile extends Module
                 'notice' => $notice, 'sitekey' => (string) Configuration::get('CFTURNSTILE_SITEKEY'),
                 'hasSecret' => (string) Configuration::get('CFTURNSTILE_SECRET') !== '', 'verified' => self::keysVerified(),
                 'theme' => (string) Configuration::get('CFTURNSTILE_THEME'), 'size' => (string) Configuration::get('CFTURNSTILE_SIZE'),
+                'appearance' => self::appearance(), 'appearances' => self::APPEARANCES,
                 'themes' => self::THEMES, 'sizes' => self::SIZES, 'skipLogged' => (bool) Configuration::get('CFTURNSTILE_SKIP_LOGGED'), 'enabled' => self::enabledForms(),
                 'labels' => self::LABELS, 'defaults' => array_map(function ($f) { return $f[2]; }, self::forms()),
                 'selectors' => json_decode((string) Configuration::get('CFTURNSTILE_SELECTORS'), true) ?: [],
@@ -545,6 +555,7 @@ class CfTurnstile extends Module
         Configuration::updateValue('CFTURNSTILE_SECRET', $secret);
         Configuration::updateValue('CFTURNSTILE_THEME', isset(self::THEMES[(string) Tools::getValue('theme')]) ? Tools::getValue('theme') : 'auto');
         Configuration::updateValue('CFTURNSTILE_SIZE', isset(self::SIZES[(string) Tools::getValue('size')]) ? Tools::getValue('size') : 'normal');
+        Configuration::updateValue('CFTURNSTILE_APPEARANCE', isset(self::APPEARANCES[(string) Tools::getValue('appearance')]) ? Tools::getValue('appearance') : 'always');
         Configuration::updateValue('CFTURNSTILE_SKIP_LOGGED', (int) (bool) Tools::getValue('skip_logged'));
         if ((int) (bool) Tools::getValue('zm40_net') !== (Zm40CommonCft::isNetEnabled() ? 1 : 0)) {
             Configuration::updateValue('ZM40_NET_ENABLED', (int) (bool) Tools::getValue('zm40_net'));

@@ -52,7 +52,17 @@
           t.button.parentNode.insertBefore(box, t.button);
         }
         box.setAttribute('data-cf-turnstile', '1');
-        var id = window.turnstile.render(box, { sitekey: cfg.sitekey, theme: cfg.theme, size: cfg.size, language: cfg.language || 'auto', action: form });
+        // Rien d'affiché (affichage « seulement si besoin », ou widget en mode Invisible chez Cloudflare) : pas d'espace réservé.
+        if (cfg.appearance === 'interaction-only') { box.className += ' cft-empty'; }
+        var id = window.turnstile.render(box, {
+          sitekey: cfg.sitekey, theme: cfg.theme, size: cfg.size, appearance: cfg.appearance || 'always',
+          language: cfg.language || 'auto', action: form,
+          callback: function () {
+            // box.getClientRects() vide : formulaire masqué (onglet de la commande), on ne peut pas juger, on laisse tel quel.
+            if (box.getClientRects().length && box.firstElementChild && !box.firstElementChild.offsetHeight && box.className.indexOf('cft-empty') === -1) { box.className += ' cft-empty'; }
+          },
+          'before-interactive-callback': function () { box.className = box.className.replace(/\s*cft-empty/g, ''); }
+        });
         (widgets[form] = widgets[form] || []).push(id);
       });
     });
