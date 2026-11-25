@@ -61,8 +61,10 @@ L'API de Cloudflare n'est chargée que sur les pages qui ont un formulaire prot�
 
 thirty bees, PrestaShop 1.6, 1.7, 8 et 9. Aucune dépendance Composer.
 
-Testé sur PrestaShop 1.7.8.11 (PHP 7.4), 8.2.8 (classic) et 9.2.0 (Hummingbird). La branche thirty bees reprend
-un code déjà en production sur des boutiques thirty bees.
+Testé sur thirty bees, PrestaShop 1.7.8.11 (PHP 7.4), 8.2.8 (classic) et 9.2.0 (Hummingbird).
+
+Le message de refus affiché aux clients est traduit en anglais, allemand, espagnol, italien, néerlandais,
+portugais et slovène ; la page de configuration est en français.
 
 Limites connues :
 

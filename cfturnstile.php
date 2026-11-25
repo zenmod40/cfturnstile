@@ -103,7 +103,7 @@ class CfTurnstile extends Module
         parent::__construct();
 
         $this->displayName = 'Cloudflare Turnstile';
-        $this->description = 'Vérification anti-robot Cloudflare Turnstile sur la connexion, la création de compte, le mot de passe oublié, le contact, la newsletter et le back-office.';
+        $this->description = $this->l('Vérification anti-robot Cloudflare Turnstile sur la connexion, la création de compte, le mot de passe oublié, le contact, la newsletter et le back-office.');
         $this->ps_versions_compliancy = ['min' => '1.6', 'max' => _PS_VERSION_];
     }
 

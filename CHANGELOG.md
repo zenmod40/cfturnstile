@@ -16,5 +16,6 @@ Première version publique, libre et open source (OSL 3.0).
 - thirty bees et PS 1.6 : contrôle par `actionDispatcher` (newsletter : blocknewsletter)
 - widget dans l'emplacement prévu par le thème, sinon devant le bouton d'envoi (sélecteur CSS modifiable par formulaire) ; un seul widget par formulaire ; formulaires ajoutés après le chargement de la page équipés aussi ; widget de la newsletter renouvelé après chaque envoi en ajax
 - affichage de la case : toujours, ou seulement si Cloudflare demande une action au visiteur ; widget en mode « Invisible » chez Cloudflare pris en charge (aucun espace réservé dans le formulaire)
+- message de refus affiché aux clients et description du module traduits : anglais, allemand, espagnol, italien, néerlandais, portugais, slovène (configuration en français)
 - protection active seulement après un essai réussi des clés ; Cloudflare injoignable : le formulaire passe et l'événement est noté au journal (90 jours)
 - page de configuration : réglages, formulaires, journal, onglet Modules ZM40 (liste des modules et vérification des mises à jour, désactivables), pied de page commun avec la charte pour une cybersécurité responsable
