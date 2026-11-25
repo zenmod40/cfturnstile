@@ -28,8 +28,8 @@
     <div class="panel">
       <h3><i class="icon-key"></i> Clés Cloudflare
         <span class="cft-status {if $cft.verified}cft-on{else}cft-off{/if}">{if $cft.verified}vérifiées{else}non vérifiées{/if}</span></h3>
-      <p>Dans le tableau de bord Cloudflare : <b>Turnstile &gt; Add widget</b>, avec le domaine de la boutique, en mode « Managed ».
-        Copiez ici la clé de site et la clé secrète.</p>
+      <p>Dans le tableau de bord Cloudflare, <b>Turnstile</b> : « Ajouter manuellement » (pas Spin), le domaine de la boutique en nom d'hôte,
+        mode « Managed », pré-autorisation sur « Non ». Copiez ici la clé de site et la clé secrète.</p>
       <div class="form-group">
         <label class="control-label col-lg-3">Clé de site</label>
         <div class="col-lg-6"><input type="text" name="sitekey" value="{$cft.sitekey|escape:'html':'UTF-8'}" autocomplete="off"></div>
@@ -42,7 +42,14 @@
         <div class="form-group">
           <label class="control-label col-lg-3">Essai</label>
           <div class="col-lg-6">
-            <div class="cf-turnstile cft-test" data-sitekey="{$cft.sitekey|escape:'html':'UTF-8'}"></div>
+            <div class="cf-turnstile cft-test" data-sitekey="{$cft.sitekey|escape:'html':'UTF-8'}" data-callback="cftTestOk"></div>
+            <script>
+              {* la case validée ne vérifie encore rien : c'est l'enregistrement qui fait confirmer les clés par Cloudflare *}
+              window.cftTestOk = function () {
+                var s = document.querySelector('.cft-status.cft-off');
+                if (s) { s.textContent = 'essai réussi : enregistrez pour activer'; }
+              };
+            </script>
             <script src="{$cft.api|escape:'html':'UTF-8'}" async defer></script>
             <p class="help-block">Attendez que la case soit validée, puis enregistrez : Cloudflare confirme alors les deux clés et la protection s'active.
               Tant que ce n'est pas fait, rien n'est contrôlé, et une clé fausse ne peut pas bloquer la connexion au back-office.</p>
