@@ -1,0 +1,2 @@
+.cf-turnstile-box { margin: 10px 0; min-height: 65px; }
+#login_form .cf-turnstile-box, #forgot_password_form .cf-turnstile-box { display: flex; justify-content: center; }
