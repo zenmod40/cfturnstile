@@ -81,8 +81,8 @@
       </div>
       <div class="form-group">
         <label class="control-label col-lg-3">Clients connectés</label>
-        <div class="col-lg-9"><label class="checkbox"><input type="checkbox" name="skip_logged" value="1"{if $cft.skipLogged} checked{/if}>
-          Pas de vérification pour un client déjà connecté (formulaire de contact)</label></div>
+        <div class="col-lg-9"><div class="checkbox"><label><input type="checkbox" name="skip_logged" value="1"{if $cft.skipLogged} checked{/if}>
+          Pas de vérification pour un client déjà connecté (formulaire de contact)</label></div></div>
       </div>
     </div>
   </div>
@@ -131,8 +131,8 @@
     <div class="panel">
       <div class="form-group">
         <label class="control-label col-lg-3">Mises à jour</label>
-        <div class="col-lg-9"><label class="checkbox"><input type="checkbox" name="zm40_net" value="1"{if $zm40_net_enabled} checked{/if}>
-          Vérifier les mises à jour et actualiser la liste des modules ZM40</label>
+        <div class="col-lg-9"><div class="checkbox"><label><input type="checkbox" name="zm40_net" value="1"{if $zm40_net_enabled} checked{/if}>
+          Vérifier les mises à jour et actualiser la liste des modules ZM40</label></div>
           <p class="help-block">Une fois par jour au plus, une requête anonyme vers zm40.com met la liste à jour et GitHub donne la dernière version. Désactivé, la liste reste affichée telle quelle. Aucune donnée de la boutique n'est transmise.</p></div>
       </div>
     </div>
