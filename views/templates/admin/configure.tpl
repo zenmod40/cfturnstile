@@ -123,7 +123,7 @@
     </div>
   </div>
 
-  <div class="panel-footer" id="cft-save">
+  <div class="panel-footer clearfix" id="cft-save">
     <button type="submit" name="submitCfTurnstile" value="1" class="btn btn-default pull-right"><i class="process-icon-save"></i> Enregistrer</button>
   </div>
 </form>
