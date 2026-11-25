@@ -72,8 +72,10 @@ Limites connues :
 
 1. Télécharger la dernière release (`cfturnstile_vX.Y.Z.zip`).
 2. Back-office, Modules, Téléverser un module.
-3. Dans le tableau de bord Cloudflare : Turnstile, Add widget, avec le domaine de la boutique, en mode
-   « Managed ». Copier la clé de site et la clé secrète dans la configuration du module.
+3. Dans le tableau de bord Cloudflare, Turnstile : choisir « Ajouter manuellement » (pas « Configurer
+   avec Spin » : l'intégration est le travail du module). Noms d'hôte : le domaine de la boutique, et sa
+   version www si elle est utilisée. Mode « Managed ». Pré-autorisation : laisser « Non ». Copier la clé
+   de site et la clé secrète dans la configuration du module.
 4. Attendre que la case d'essai soit validée, puis enregistrer : la protection s'active.
 
 Si le module Google reCAPTCHA (nocaptcharecaptcha) est installé, la page de configuration vous le signale :
